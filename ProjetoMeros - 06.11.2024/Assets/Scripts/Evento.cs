@@ -8,8 +8,11 @@ public class Evento : MonoBehaviour
 {
     public Transform pauseMenu;
     private bool somOn = true;
+    private bool pauseOn = true;
     [SerializeField] Image soundOff;
+    [SerializeField] Image pOff;
     [SerializeField] Image soundOn;
+    [SerializeField] Image pOn;
     public float passouFase = 0;
     public GameObject bt0;
     public Button bt1;
@@ -18,14 +21,16 @@ public class Evento : MonoBehaviour
     private void Start()
     {
         soundOn.enabled = false;
+        pOn.enabled = false;
         soundOff.enabled = true;
+        pOff.enabled = true;
         Time.timeScale = 1;
     
     }
 
     private void Update()
     {
-        BtPause();
+        OnOffPause();
         OnOff();
         
         
@@ -71,23 +76,34 @@ public class Evento : MonoBehaviour
             AudioListener.volume = 0;
         }
     }
-    //pausa o jogo 
-    public void BtPause()
+    public void BotaoPause()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        pauseOn = !pauseOn;
+        if(pauseOn)
         {
-            if(pauseMenu.gameObject.activeSelf)
-            {
-                pauseMenu.gameObject.SetActive(false);
-                Time.timeScale = 1;
-            }
-            else
-            {
-                pauseMenu.gameObject.SetActive(true);
-                Time.timeScale = 0;
-            }
+            Time.timeScale = 1;
+
+        }
+        else
+        {
+            Time.timeScale = 0;
         }
     }
+    public void OnOffPause()
+    {
+        if (!pauseOn)
+        {
+            pOn.enabled = true;
+            pOff.enabled = false;
+        }
+        if (pauseOn)
+        {
+            pOn.enabled = false;
+            pOff.enabled = true;
+        }
+
+    }
+    
     //desativa a imagem de que esta com som para ativar que esta sem som
     public void OnOff()
     {
